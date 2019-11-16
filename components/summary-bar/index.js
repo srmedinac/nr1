@@ -29,7 +29,7 @@ export default class SummaryBar extends Component {
           gapType={Stack.GAP_TYPE.BASE}>
           <StackItem style={{width: '120px', paddingTop: '10px'}}>
             <HeadingText>
-              {countryCode ? `${regionCode ? `${regionCode}, ` : ''}${countryCode}` : `Overall`}
+              {countryCode ? `${regionCode ? `${regionCode}, ` : ''}${countryCode}` : `Top`}
             </HeadingText>
           </StackItem>
           <StackItem>

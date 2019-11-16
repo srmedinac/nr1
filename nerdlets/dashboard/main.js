@@ -117,7 +117,7 @@ export default class MyNerdlet extends React.Component {
                         accountId={this.accountId}
                         query={phones_funnel + since} />
                 </GridItem>
-                <GridItem columnStart={7} columnEnd={12}>
+                <GridItem columnStart={1} columnEnd={6}>
                     <h4>Live Application Sessions</h4>
                     <BillboardChart
                     style={{ height: `${chartHeight}px` }}
@@ -126,7 +126,7 @@ export default class MyNerdlet extends React.Component {
                         query={live_sessions + since} />
 
                 </GridItem>
-                <GridItem columnStart={1} columnEnd={6}>
+                <GridItem columnStart={7} columnEnd={12}>
                     <h4>Browser Yearly Usage</h4>
                     <StackedBarChart
                     style={{ height: `${chartHeight}px` }}
