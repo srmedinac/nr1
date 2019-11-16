@@ -1,0 +1,8 @@
+{
+    "schemaType": "NERDLET",
+    "id": "dev-nerdlet",
+    "displayName": "DevOps",
+    "description": "DevOps Dashboard",
+    "entities": [{"domain": "BROWSER", "type": "APPLICATION"}],
+    "actionCategory": "monitor"
+}

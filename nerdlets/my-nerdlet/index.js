@@ -30,7 +30,7 @@ export default class MyNerdlet extends React.Component {
             entity: null,
             accounts: null,
             selectedAccount: null,
-            entityName: "Demo ASP.NET",
+            entityName: "WebPortal",
             center: [10.5731, -7.5898],
             zoom: 2
         }
