@@ -165,7 +165,7 @@ export default class MyNerdlet extends React.Component {
 
 
                     <GridItem columnStart={9} columnEnd={12}>
-                        <h4>Total errors app</h4>
+                        <h4>Total Javascript errors</h4>
                         <BillboardChart
                             style={{ height: `${height - 250}px`, width: `${width}px`}}
                             className="chart"
