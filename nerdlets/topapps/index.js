@@ -52,7 +52,7 @@ export default class Topapps extends React.Component {
                                 directionType={Stack.DIRECTION_TYPE.VERTICAL}
                                 gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
                                 <StackItem>
-                                    <h2>Top 10 App Errors!</h2>
+                                    <h2>Top 10 Apps With Errors</h2>
                                     <BillboardChart query={bilboarderrors + since} accountId={this.accountId} className="chart"/>
                                 </StackItem>
 
@@ -63,7 +63,7 @@ export default class Topapps extends React.Component {
                                 directionType={Stack.DIRECTION_TYPE.VERTICAL}
                                 gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
                                 <StackItem>
-                                    <h2>Top 10 App Transactions!</h2>
+                                    <h2>Top 10 Apps Transaction Load</h2>
                                     <BillboardChart query={bilboardtrans + since} accountId={this.accountId} className="chart"/>
                                 </StackItem>
 
