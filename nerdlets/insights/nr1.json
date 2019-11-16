@@ -1,0 +1,8 @@
+{
+    "schemaType": "NERDLET",
+    "id": "insights",
+    "displayName": "Insights",
+    "description": "",
+    "entities": [{"domain": "BROWSER", "type": "APPLICATION"}],
+    "actionCategory": "monitor"
+}

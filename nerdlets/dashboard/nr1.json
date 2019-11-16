@@ -1,0 +1,8 @@
+{
+    "schemaType": "NERDLET",
+    "id": "dashboard",
+    "description": "Description",
+    "displayName": "Dashboard",   
+    "entities": [{"domain": "BROWSER", "type": "APPLICATION"}],
+    "actionCategory": "monitor"
+}

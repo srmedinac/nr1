@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "name": "rmp-nr1",
+  "description": "NR1",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "nr1 nerdpack:serve",
+    "test": "exit 0"
+  },
+  "nr1": {
+    "uuid": "7f610c60-da44-457d-b022-ba0276a94afe"
+  },
+  "bugs": {
+    "email": "soporte@rmpservices.com.co"
+  },
+  "author": "RMP",
+  "dependencies": {
+    "colormap": "^2.3.1",
+    "leaflet": "^1.5.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-leaflet": "^2.4.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not ie < 11",
+    "not dead"
+  ],
+  "devDependencies": {
+    "file-loader": "^4.1.0"
+  }
+}
