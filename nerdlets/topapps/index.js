@@ -14,7 +14,7 @@ export default class Topapps extends React.Component {
             entityGuid: null,
             appName: null
         };
-        console.debug("Nerdlet constructor", this); //eslint-disable-line
+        //console.debug("Nerdlet constructor", this); //eslint-disable-line
     }
 
     setApplication(inAppId, inAppName) {
@@ -38,7 +38,6 @@ export default class Topapps extends React.Component {
             <PlatformStateContext.Consumer>
               {(platformUrlState) => {
                   //console.debug here for learning purposes
-                  console.debug(platformUrlState); //eslint-disable-line
                   const { duration } = platformUrlState.timeRange;
                   const since = ` SINCE ${duration/60/1000} MINUTES AGO`;
                   return (<Stack
@@ -53,7 +52,6 @@ export default class Topapps extends React.Component {
                                 directionType={Stack.DIRECTION_TYPE.VERTICAL}
                                 gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
                                 <StackItem>
-                                    {console.debug(bilboarderrors)}
                                     <h2>Top 10 App Errors!</h2>
                                     <BillboardChart query={bilboarderrors + since} accountId={this.accountId} className="chart"/>
                                 </StackItem>
@@ -65,7 +63,6 @@ export default class Topapps extends React.Component {
                                 directionType={Stack.DIRECTION_TYPE.VERTICAL}
                                 gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
                                 <StackItem>
-                                    {console.debug(bilboardtrans)}
                                     <h2>Top 10 App Transactions!</h2>
                                     <BillboardChart query={bilboardtrans + since} accountId={this.accountId} className="chart"/>
                                 </StackItem>

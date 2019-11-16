@@ -71,7 +71,7 @@ export default class DevNerdlet extends React.Component {
                             accountId={this.accountId}
                             className="chart"
                             onClickLine={(line) => {
-                                console.debug(line); //eslint-disable-line
+                                //console.debug(line); //eslint-disable-line
                             }}
                         />
                     </GridItem>

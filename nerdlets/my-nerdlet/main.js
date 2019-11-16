@@ -53,7 +53,7 @@ export default class MyNerdlet extends React.Component {
 
     //Render for GraphQL
     _renderTable(data) {
-        console.debug(JSON.stringify(data));
+        //console.debug(JSON.stringify(data));
         const headings = Object.keys(data[0]).filter(k => k != '__typename' && k != 'id' && k != 'tags' && k != 'reporting');
         return <table className="table">
             <tbody>
@@ -131,11 +131,11 @@ export default class MyNerdlet extends React.Component {
                             accountId={this.accountId}
                             query={`SELECT count(*) as x, average(duration) as y, sum(asnLatitude)/count(*) as lat, sum(asnLongitude)/count(*) as lng FROM PageView WHERE appName = '${this.appName}' facet regionCode, countryCode SINCE ${durationInMinutes} MINUTES AGO limit 2000`}>
                             {results => {
-                                console.debug(results);
+                                //console.debug(results);
                                 if (results.loading) {
                                     return <Spinner />
                                 } else {
-                                    console.debug(results.data.facets);
+                                    //console.debug(results.data.facets);
                                     return <Map
                                         className="containerMap"
                                         style={{ height: `${height - 250}px` }}

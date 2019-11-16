@@ -15,7 +15,7 @@ export default class DetailsNerdlet extends React.Component {
                     <AutoSizer>
                     {({height, width}) => (<EntityByGuidQuery entityGuid={nerdletUrlState.entityGuid}>
                         {({data, loading, error}) => {
-                            console.debug("EntityByGuidQuery", [loading, data, error]); //eslint-disable-line
+                            //console.debug("EntityByGuidQuery", [loading, data, error]); //eslint-disable-line
                             if (loading) {
                                 return <Spinner fillContainer />;
                             }

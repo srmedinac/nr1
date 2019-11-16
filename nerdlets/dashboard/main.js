@@ -21,7 +21,7 @@ export default class MyNerdlet extends React.Component {
             toastTitle: '',
             toastDisplay: ''
         }
-        console.debug("nerdlet props", this.props);
+        //console.debug("nerdlet props", this.props);
 
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
