@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, GridItem, Stack, StackItem, FunnelChart, StackedBarChart, BillboardChart, ChartGroup, AreaChart, BarChart, LineChart, TableChart, PieChart, Button, TextField, Modal, Toast } from 'nr1';
+import { Grid, GridItem, Stack, StackItem, FunnelChart, NrqlQuery, StackedBarChart, BillboardChart, ChartGroup, AreaChart, BarChart, LineChart, TableChart, PieChart, Button, TextField, Modal, Toast } from 'nr1';
 
 export default class MyNerdlet extends React.Component {
     static propTypes = {
@@ -120,7 +120,7 @@ export default class MyNerdlet extends React.Component {
                 <GridItem columnStart={1} columnEnd={6}>
                     <h4>Live Application Sessions</h4>
                     <BillboardChart
-                    style={{ height: `${chartHeight}px` }}
+                        style={{ height: `${chartHeight}px` }}
                         className="chart"
                         accountId={this.accountId}
                         query={live_sessions} />
@@ -129,13 +129,66 @@ export default class MyNerdlet extends React.Component {
                 <GridItem columnStart={7} columnEnd={12}>
                     <h4>Browser Yearly Usage</h4>
                     <StackedBarChart
-                    style={{ height: `${chartHeight}px` }}
+                        style={{ height: `${chartHeight}px` }}
                         className="chart"
                         accountId={this.accountId}
                         query={browser_usage} />
 
                 </GridItem>
+                <GridItem columnStart={1} columnEnd={6}>
+                    <h4>Conversion rate</h4>
+                    <NrqlQuery accountId={this.accountId} query={phones_funnel + since}>
 
+                        {({ data }) => {
+                            if (data) {
+                                var result = ((data[0].data)[0].Home / (data[0].data)[0].Checkout);
+                                console.debug(result);
+                                var conversion_rate = result;
+                            }
+                            const chart_data = [{
+                                metadata: {
+                                    id: 'conversion-rate-phones',
+                                    name: 'Phones',
+                                    viz: 'main',
+                                    units_data: {
+                                        y: "percent"
+                                    }
+                                },
+                                data: [
+                                    { y: result }
+                                ],
+                            }]
+                            return <BillboardChart className="chart" style={{ height: `200px`}} fullWidth fullHeight data={chart_data} />;
+                        }}
+                    </NrqlQuery>
+                </GridItem>
+                <GridItem columnStart={7} columnEnd={12}>
+                    <h4>Conversion rate</h4>
+                    <NrqlQuery accountId={this.accountId} query={plans_funnel + since}>
+
+                        {({ data }) => {
+                            if (data) {
+                                var result = ((data[0].data)[0].Home / (data[0].data)[0].Checkout);
+                                console.debug(result);
+                                var conversion_rate = result;
+                            }
+                            const chart_data = [{
+                                metadata: {
+                                    id: 'conversion-rate-phones',
+                                    name: 'Plans',
+                                    viz: 'main',
+                                    units_data: {
+                                        y: "percent"
+                                    }
+                                },
+                                data: [
+                                    { y: result }
+                                ],
+                            }]
+                            return <BillboardChart className="chart" style={{ height: `200px`}} fullWidth fullHeight data={chart_data} />;
+                        }}
+                    </NrqlQuery>
+                </GridItem>
             </Grid>
         </React.Fragment >
     }
