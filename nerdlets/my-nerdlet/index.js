@@ -167,8 +167,11 @@ export default class MyNerdlet extends React.Component {
                                         const { accountId } = entity;
                                         const { duration } = platformUrlState.timeRange;
                                         const durationInMinutes = duration / 1000 / 60;
-                                        return (<Tabs>
-                                            <TabsItem label={`Geographic Info`} value={1}>
+                                        return (<Stack
+                                                    fullWidth
+                                                    horizontalType={Stack.HORIZONTAL_TYPE.FILL}
+                                                    directionType={Stack.DIRECTION_TYPE.VERTICAL}
+                                                    gapType={Stack.GAP_TYPE.TIGHT}>
                                                 <Stack
                                                     fullWidth
                                                     horizontalType={Stack.HORIZONTAL_TYPE.FILL}
@@ -215,11 +218,9 @@ export default class MyNerdlet extends React.Component {
                                                         </NrqlQuery>
                                                     </StackItem>
                                                 </Stack>
-                                            </TabsItem>
-                                            <TabsItem label ={`JS Errors`} value ={2}>
+                                            
                                                 <JavaScriptErrorSummary height={height} entity={entity} accountId={accountId} launcherUrlState={platformUrlState}/>
-                                            </TabsItem>
-                                            <TabsItem label={`Dashboard`} value={3}>
+                                                
                                                 <Stack
                                                     fullWidth
                                                     horizontalType={Stack.HORIZONTAL_TYPE.FILL}
@@ -265,8 +266,6 @@ export default class MyNerdlet extends React.Component {
                                                         </StackItem>
                                                     }
                                                 </Stack>
-                                            </TabsItem>
-                                            <TabsItem label={`GraphQL Info`} value={4}>
                                                 <Stack fullWidth
                                                     horizontalType={Stack.HORIZONTAL_TYPE.FILL}
                                                     directionType={Stack.DIRECTION_TYPE.VERTICAL}>
@@ -331,8 +330,8 @@ export default class MyNerdlet extends React.Component {
                                                     </StackItem>
 
                                                 </Stack>
-                                            </TabsItem>
-                                        </Tabs>);
+                                            
+                                        </Stack>);
                                     }}
                                 </EntityByGuidQuery>)}
                             </AutoSizer>
