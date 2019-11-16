@@ -13,8 +13,8 @@ export default class DevNerdlet extends React.Component {
         super(props);
         this.accountId = 1966971;
         this.state = {
-            value: '',
-            value2: "SELECT count(*) as 'throughput' FROM Transaction TIMESERIES SINCE last week",
+            value: "SELECT count(*) as 'throughput' FROM Transaction TIMESERIES SINCE last week",
+            value2: "",
             facet: '',
         }
         this.handleChange = this.handleChange.bind(this);
@@ -55,17 +55,17 @@ export default class DevNerdlet extends React.Component {
         return <React.Fragment>
             <Grid>
                 <GridItem columnStart={1} columnEnd={12}>
-                    <h1><b>DEV Dashboard</b></h1>
+                    <h1><b>DevOps Dashboard</b></h1>
                 </GridItem>
                 <GridItem columnStart={1} columnEnd={12}>
                     <TextField label='Lets get querying' multiline spacingType={[TextField.SPACING_TYPE.LARGE]}
-                        value={this.state.value2}
+                        value={this.state.value}
                         onChange={this.handleChange}
                     />
                 </GridItem>
                 <GridItem columnStart={1} columnEnd={6}>
                     <AreaChart
-                        query={this.state.value2}
+                        query={this.state.value}
                         accountId={this.accountId}
                         className="chart"
                         onClickLine={(line) => {
@@ -75,7 +75,7 @@ export default class DevNerdlet extends React.Component {
                 </GridItem>
                 <GridItem columnStart={7} columnEnd={12}>
                     <JsonChart
-                        query={this.state.value2}
+                        query={this.state.value}
                         accountId={this.accountId}
                         className="chart" //eslint-disable-line
                     />

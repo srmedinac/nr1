@@ -65,7 +65,7 @@ export default class MyNerdlet extends React.Component {
         const plans_funnel = `SELECT funnel(session, where pageUrl='http://webportal.telco.nrdemo-sandbox.com/index.html' as 'Home', where pageUrl='http://webportal.telco.nrdemo-sandbox.com/browse/plans' as 'Plan Catalog', where pageUrl like 'http://webportal.telco.nrdemo-sandbox.com/browse/plans/%' as 'Plan Details', where pageUrl='http://webportal.telco.nrdemo-sandbox.com/login.jsp'  as 'Login', where pageUrl='http://webportal.telco.nrdemo-sandbox.com/shoppingcart' as 'Shopping Cart', where pageUrl='http://webportal.telco.nrdemo-sandbox.com/checkout' as 'Checkout') from PageView`;
         const phones_funnel = `SELECT funnel(session, where pageUrl='http://webportal.telco.nrdemo-sandbox.com/index.html' as 'Home', where pageUrl='http://webportal.telco.nrdemo-sandbox.com/browse/phones' as 'Phone Catalog', where pageUrl like 'http://webportal.telco.nrdemo-sandbox.com/browse/phones/%' as 'Phone Overview', where pageUrl='http://webportal.telco.nrdemo-sandbox.com/login.jsp'  as 'Login',  where pageUrl='http://webportal.telco.nrdemo-sandbox.com/shoppingcart' as 'Shopping Cart', where pageUrl='http://webportal.telco.nrdemo-sandbox.com/checkout' as 'Checkout') from PageView`;
         const customers_by_country = `SELECT count(*) FROM PageView` + since + `FACET countryCode`;
-        const live_sessions = `SELECT Count(session) from PageView`;
+        const live_sessions = `SELECT Count(session) from PageView TIMESERIES 1 MINUTE `;
         const browser_usage = "SELECT SUM(browserPageViewCount) as Pageviews FROM NrDailyUsage WHERE `productLine` = 'Browser' AND `usageType` = 'Application' AND `isPrimaryApp` = 'true' FACET monthOf(timestamp) SINCE 12 months ago LIMIT 100"
         const chartHeight = 250;
 
@@ -80,7 +80,7 @@ export default class MyNerdlet extends React.Component {
             }
             <Grid>
                 <GridItem columnStart={1} columnEnd={12}>
-                    <h1><b>CEO Dashboard</b></h1>
+                    <h1><b>Management Dashboard</b></h1>
                 </GridItem>
                 <GridItem columnStart={1} columnEnd={6}>
                     <h4>Transactions by Application</h4>
@@ -123,7 +123,7 @@ export default class MyNerdlet extends React.Component {
                     style={{ height: `${chartHeight}px` }}
                         className="chart"
                         accountId={this.accountId}
-                        query={live_sessions + since} />
+                        query={live_sessions} />
 
                 </GridItem>
                 <GridItem columnStart={7} columnEnd={12}>
