@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableChart, Stack, StackItem, ChartGroup, LineChart, ScatterChart, Button, navigation, nerdlet, PlatformStateContext, NerdletStateContext  } from 'nr1';
+import { BillboardChart, TableChart, Stack, StackItem, ChartGroup, LineChart, ScatterChart, Button, navigation, nerdlet, PlatformStateContext, NerdletStateContext  } from 'nr1';
 
 
 // https://docs.newrelic.com/docs/new-relic-programmable-platform-introduction
@@ -31,6 +31,8 @@ export default class Topapps extends React.Component {
 
     render() {
         const { entityGuid, appName } = this.state;
+        const bilboardnqrl = 'SELECT count(*) FROM Transaction TIMESERIES AUTO FACET appName'; 
+        const bilboardnqrl2 = ' ';
         const nrql = `SELECT count(*) as 'transactions', apdex(duration) as 'apdex', percentile(duration, 99, 90, 70) FROM Transaction facet appName`;
         
         return (
@@ -51,6 +53,11 @@ export default class Topapps extends React.Component {
                                 horizontalType={Stack.HORIZONTAL_TYPE.FILL}
                                 directionType={Stack.DIRECTION_TYPE.VERTICAL}
                                 gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
+                                <StackItem>
+                                    <BillboardChart query={bilboardnqrl + since} accountId={this.accountId} className="chart"/>
+                                </StackItem>
+
+                                
                                 <StackItem>
                                     <TableChart query={nrql + since} accountId={this.accountId} className="chart" onClickTable={(dataEl, row, chart) => {
                                     //for learning purposes, we'll write to the console.
