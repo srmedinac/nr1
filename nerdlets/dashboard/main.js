@@ -17,8 +17,8 @@ export default class MyNerdlet extends React.Component {
             facet: '',
             hideModal: true,
             showToast: false,
-            toastType: 'normal',
-            toastTitle: '',
+            toastType: 'critical',
+            toastTitle: 'Conversion rate warning',
             toastDisplay: ''
         }
         //console.debug("nerdlet props", this.props);
@@ -56,6 +56,8 @@ export default class MyNerdlet extends React.Component {
     popToast(toastType, toastTitle, toastDisplay) {
         this.setState({ showToast: true, toastType, toastTitle, toastDisplay });
     }
+
+
     render() {
         const { duration } = this.props.launcherUrlState.timeRange;
         const since = ` SINCE ${duration / 1000 / 60} MINUTES AGO `;
@@ -67,6 +69,7 @@ export default class MyNerdlet extends React.Component {
         const customers_by_country = `SELECT count(*) FROM PageView` + since + `FACET countryCode`;
         const live_sessions = `SELECT Count(session) from PageView TIMESERIES 1 MINUTE `;
         const browser_usage = "SELECT SUM(browserPageViewCount) as Pageviews FROM NrDailyUsage WHERE `productLine` = 'Browser' AND `usageType` = 'Application' AND `isPrimaryApp` = 'true' FACET monthOf(timestamp) SINCE 12 months ago LIMIT 100"
+        const least_sold_query = "From PageView SELECT uniques(pageUrl) WHERE appName ='WebPortal' AND pageUrl LIKE 'http://telco.nrdemo-sandbox.com/browse/phones/%' since 30 minutes ago"
         const chartHeight = 250;
 
         return <React.Fragment>
@@ -144,11 +147,13 @@ export default class MyNerdlet extends React.Component {
                                 var result = ((data[0].data)[0].Home / (data[0].data)[0].Checkout);
                                 console.debug(result);
                                 var conversion_rate = result;
+                                if (result >= 9) {
+                                }
                             }
                             const chart_data = [{
                                 metadata: {
                                     id: 'conversion-rate-phones',
-                                    name: 'Phones',
+                                    name: '\% of Phones',
                                     viz: 'main',
                                     units_data: {
                                         y: "percent"
@@ -158,7 +163,7 @@ export default class MyNerdlet extends React.Component {
                                     { y: result }
                                 ],
                             }]
-                            return <BillboardChart className="chart" style={{ height: `200px`}} fullWidth fullHeight data={chart_data} />;
+                            return <BillboardChart className="chart" style={{ height: `200px` }} fullWidth fullHeight data={chart_data} />;
                         }}
                     </NrqlQuery>
                 </GridItem>
@@ -169,13 +174,15 @@ export default class MyNerdlet extends React.Component {
                         {({ data }) => {
                             if (data) {
                                 var result = ((data[0].data)[0].Home / (data[0].data)[0].Checkout);
+                                var chart_data = [];
+                                data.forEach(({ metadata }) => metadata.color = '#FF0000');
                                 console.debug(result);
-                                var conversion_rate = result;
                             }
-                            const chart_data = [{
+                            chart_data = [{
                                 metadata: {
                                     id: 'conversion-rate-phones',
-                                    name: 'Plans',
+                                    name: '\% of Plans',
+                                    color: '#FF0000',
                                     viz: 'main',
                                     units_data: {
                                         y: "percent"
@@ -185,10 +192,22 @@ export default class MyNerdlet extends React.Component {
                                     { y: result }
                                 ],
                             }]
-                            return <BillboardChart className="chart" style={{ height: `200px`}} fullWidth fullHeight data={chart_data} />;
+                            return <BillboardChart className="chart" style={{ height: `200px`, color: "red" }} fullWidth fullHeight data={chart_data} />;
                         }}
                     </NrqlQuery>
                 </GridItem>
+                <GridItem columnStart={1} columnEnd={6}>
+                    <h4>These items could use a promo</h4>
+                    <TableChart
+                        style={{ height: `${chartHeight}px` }}
+                        className="chart"
+                        style={{ height: `200px` }}
+                        fullWidth
+                        fullHeight
+                        query={least_sold_query}
+                        accountId={this.accountId} />
+                </GridItem>
+
             </Grid>
         </React.Fragment >
     }
