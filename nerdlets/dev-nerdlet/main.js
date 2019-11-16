@@ -29,7 +29,7 @@ export default class DevNerdlet extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.setState({ hideModal: false })
+        this.setState({ hideModal: true })
     }
 
     confirmFacet(e) {
@@ -57,49 +57,11 @@ export default class DevNerdlet extends React.Component {
                 <GridItem columnStart={1} columnEnd={12}>
                     <h1><b>DEV Dashboard</b></h1>
                 </GridItem>
-                <GridItem columnStart={1} columnEnd={6}>
+                <GridItem columnStart={1} columnEnd={12}>
                     <TextField label='Lets get querying' multiline spacingType={[TextField.SPACING_TYPE.LARGE]}
                         value={this.state.value2}
                         onChange={this.handleChange}
                     />
-                </GridItem>
-                <GridItem columnStart={8} columnEnd={11}>
-                    <form onSubmit={this.onSubmit}>
-                        <Stack fullWidth>
-                            <StackItem grow={true}>
-                                <TextField multiline spacingType={[TextField.SPACING_TYPE.LARGE]}
-                                    value={this.state.value}
-                                    onChange={this.handleChange}
-                                />
-                            </StackItem>
-                            <StackItem>
-                                <Button type={Button.TYPE.PRIMARY}>Facet</Button>
-                            </StackItem>
-                        </Stack>
-                        <Modal
-                            hidden={this.state.hideModal}
-                            onClose={() => { this.setState({ facet: '', value: '', hideModal: true }) }}
-                        >
-                            <Stack>
-                                <StackItem>
-                                    <h1 className="Modal-headline">Are you sure you want to apply this facet?</h1>
-                                    <p className="facet-value">Facet by: <strong>{this.state.value}</strong></p>
-                                    <Stack>
-                                        <StackItem>
-                                            <Button
-                                                onClick={this.rejectFacet}
-                                            >No</Button>
-                                        </StackItem>
-                                        <StackItem>
-                                            <Button
-                                                onClick={this.confirmFacet}
-                                            >Yes</Button>
-                                        </StackItem>
-                                    </Stack>
-                                </StackItem>
-                            </Stack>
-                        </Modal>
-                    </form>
                 </GridItem>
                 <GridItem columnStart={1} columnEnd={6}>
                     <AreaChart
