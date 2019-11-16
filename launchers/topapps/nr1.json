@@ -1,0 +1,7 @@
+{
+    "schemaType": "LAUNCHER",
+    "id": "topapps-launcher",
+    "description": "You can see a Rating of your Apps!",
+    "displayName": "Topapps",
+    "rootNerdletId": "topapps"
+}
