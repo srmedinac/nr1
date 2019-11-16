@@ -31,9 +31,8 @@ export default class Topapps extends React.Component {
 
     render() {
         const { entityGuid, appName } = this.state;
-        const bilboardnqrl = 'SELECT count(*) FROM Transaction TIMESERIES AUTO FACET appName'; 
-        const bilboardnqrl2 = ' ';
-        const nrql = `SELECT count(*) as 'transactions', apdex(duration) as 'apdex', percentile(duration, 99, 90, 70) FROM Transaction facet appName`;
+        const bilboarderrors = `SELECT count(error) as 'error' FROM Transaction TIMESERIES AUTO FACET appName`; 
+        const bilboardtrans = `SELECT count(*) as 'transactions' FROM Transaction TIMESERIES AUTO FACET appName`;
         
         return (
             <PlatformStateContext.Consumer>
@@ -54,17 +53,23 @@ export default class Topapps extends React.Component {
                                 directionType={Stack.DIRECTION_TYPE.VERTICAL}
                                 gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
                                 <StackItem>
-                                    <BillboardChart query={bilboardnqrl + since} accountId={this.accountId} className="chart"/>
+                                    {console.debug(bilboarderrors)}
+                                    <h2>Top 10 App Errors!</h2>
+                                    <BillboardChart query={bilboarderrors + since} accountId={this.accountId} className="chart"/>
                                 </StackItem>
 
-                                
+                            </Stack>
+                            <Stack
+                                fullWidth
+                                horizontalType={Stack.HORIZONTAL_TYPE.FILL}
+                                directionType={Stack.DIRECTION_TYPE.VERTICAL}
+                                gapType={Stack.GAP_TYPE.EXTRA_LOOSE}>
                                 <StackItem>
-                                    <TableChart query={nrql + since} accountId={this.accountId} className="chart" onClickTable={(dataEl, row, chart) => {
-                                    //for learning purposes, we'll write to the console.
-                                    console.debug([dataEl, row, chart]) //eslint-disable-line
-                                    this.setApplication(row.entityGuid, row.appName)
-                                }}/>
+                                    {console.debug(bilboardtrans)}
+                                    <h2>Top 10 App Transactions!</h2>
+                                    <BillboardChart query={bilboardtrans + since} accountId={this.accountId} className="chart"/>
                                 </StackItem>
+
                             </Stack>
                         </StackItem>
                     </Stack>);
