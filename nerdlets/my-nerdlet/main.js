@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SummaryBar from '../../components/summary-bar';
 import { CircleMarker, Map, TileLayer } from 'react-leaflet';
-import { Grid, GridItem, NrqlQuery, Spinner, JsonChart, BillboardChart, AreaChart, BarChart, LineChart, TableChart, PieChart, Button, TextField, Modal, Toast } from 'nr1';
+import { Grid, GridItem, NrqlQuery, Spinner, AutoSizer, BillboardChart, navigation, BarChart, LineChart, TableChart, PieChart, Button, TextField, Modal, Toast } from 'nr1';
 
 const COLORS = [
     "#2dc937",
@@ -32,21 +32,21 @@ export default class MyNerdlet extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    
+
     _getColor(value) {
         value = Math.round(value / 3);
         value = value < 0 ? 0 : value >= 5 ? 4 : value;
         return COLORS[value];
     }
 
-    openDetails(pt, entity) {
+    openDetails(pt) {
         navigation.openStackedNerdlet({
             id: 'details',
             urlState: {
                 regionCode: pt.name[0],
                 countryCode: pt.name[1],
-                appName: entity.name,
-                accountId: entity.accountId
+                appName: this.appName,
+                accountId: this.accountId
             }
         });
     }
@@ -117,64 +117,95 @@ export default class MyNerdlet extends React.Component {
         const since = ` SINCE ${duration / 1000 / 60} MINUTES AGO `;
         const total_query = `SELECT count(*) FROM JavaScriptError FACET appName`;
         const chartHeight = 250;
-        /*const infra_query = "SELECT average(cpuPercent) FROM SystemSample TIMESERIES FACET `entityId` WHERE (`entityId` in ('3843929980901582101', '9168366137134707439', '135745548140814589', '7026128218418353941', '1221567216879315335')) LIMIT 100"
-        const infra_query_load = "SELECT average(loadAverageFiveMinute) FROM SystemSample TIMESERIES FACET `entityId` WHERE (`entityId` in ('3843929980901582101', '9168366137134707439', '135745548140814589', '7026128218418353941', '1221567216879315335')) LIMIT 100"
-        const infra_query_mem = "SELECT average(memoryUsedBytes/memoryTotalBytes*100) FROM SystemSample TIMESERIES FACET `entityId` WHERE (`entityId` in ('3843929980901582101', '9168366137134707439', '135745548140814589', '7026128218418353941', '1221567216879315335')) LIMIT 100"
-        */return <React.Fragment>
-            <Grid>
-                <GridItem columnStart={1} columnEnd={12}>
-                    <SummaryBar appName={this.appName} accountId={this.accountId} launcherUrlState={this.props.launcherUrlState} />
-                </GridItem>
-
-                <GridItem columnStart={1} columnEnd={6}>
-                    <h3>Map</h3>
-                    <NrqlQuery
-                        formatType={NrqlQuery.FORMAT_TYPE.RAW}
-                        accountId={this.accountId}
-                        query={`SELECT count(*) as x, average(duration) as y, sum(asnLatitude)/count(*) as lat, sum(asnLongitude)/count(*) as lng FROM PageView WHERE appName = '${this.appName}' facet regionCode, countryCode SINCE ${durationInMinutes} MINUTES AGO limit 2000`}>
-                        {results => {
-                            console.debug(results);
-                            if (results.loading) {
-                                return <Spinner />
-                            } else {
-                                console.debug(results.data.facets);
-                                return <Map
-                                    className="containerMap"
-                                    style={{ height: `${chartHeight}px` }}
-                                    center={this.state.center}
-                                    zoom={this.state.zoom}
-                                    zoomControl={true}
-                                    ref={(ref) => { this.mapRef = ref }}>
-                                    <TileLayer
-                                        attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                    />
-                                    {results.data.facets.map((facet, i) => {
-                                        const pt = facet.results;
-                                        return <CircleMarker
-                                            key={`circle-${i}`}
-                                            center={[pt[2].result, pt[3].result]}
-                                            color={this._getColor(pt[1].average)}
-                                            radius={Math.log(pt[0].count) * 3}
-                                            onClick={() => { this.openDetails(facet, entity); }}>
-                                        </CircleMarker>
-                                    })}
-                                </Map>
-                            }
-                        }}
-                    </NrqlQuery>
-                </GridItem>
+        return <React.Fragment> <AutoSizer>
+            {({ height, width }) => (
+                <Grid>
+                    <GridItem columnStart={1} columnEnd={12}>
+                        <SummaryBar appName={this.appName} accountId={this.accountId} launcherUrlState={this.props.launcherUrlState} />
+                    </GridItem>
+                    <br></br>
+                    <GridItem columnStart={1} columnEnd={8}>
+                        <h3>Map</h3>
+                        <NrqlQuery
+                            formatType={NrqlQuery.FORMAT_TYPE.RAW}
+                            accountId={this.accountId}
+                            query={`SELECT count(*) as x, average(duration) as y, sum(asnLatitude)/count(*) as lat, sum(asnLongitude)/count(*) as lng FROM PageView WHERE appName = '${this.appName}' facet regionCode, countryCode SINCE ${durationInMinutes} MINUTES AGO limit 2000`}>
+                            {results => {
+                                console.debug(results);
+                                if (results.loading) {
+                                    return <Spinner />
+                                } else {
+                                    console.debug(results.data.facets);
+                                    return <Map
+                                        className="containerMap"
+                                        style={{ height: `${height - 250}px` }}
+                                        center={this.state.center}
+                                        zoom={this.state.zoom}
+                                        zoomControl={true}
+                                        ref={(ref) => { this.mapRef = ref }}>
+                                        <TileLayer
+                                            attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                        />
+                                        {results.data.facets.map((facet, i) => {
+                                            const pt = facet.results;
+                                            return <CircleMarker
+                                                key={`circle-${i}`}
+                                                center={[pt[2].result, pt[3].result]}
+                                                color={this._getColor(pt[1].average)}
+                                                radius={Math.log(pt[0].count) * 3}
+                                                onClick={() => { this.openDetails(facet); }}>
+                                            </CircleMarker>
+                                        })}
+                                    </Map>
+                                }
+                            }}
+                        </NrqlQuery>
+                    </GridItem>
 
 
-                <GridItem columnStart={1} columnEnd={6}>
-                    <h4>Total</h4>
-                    <BillboardChart
-                        className="chart"
-                        accountId={this.accountId}
-                        query={total_query + since} />
-
-                </GridItem>
-            </Grid>
+                    <GridItem columnStart={9} columnEnd={12}>
+                        <h4>Total errors app</h4>
+                        <BillboardChart
+                            style={{ height: `${height - 250}px`, width: `${width}px`}}
+                            className="chart"
+                            accountId={this.accountId}
+                            query={total_query + since} />
+                    </GridItem>                    
+                    <GridItem columnStart={1} columnEnd={6}>
+                        <h4>Requests</h4>
+                        <PieChart
+                            className="chart"
+                            style={{ height: `${chartHeight}px` }}
+                            accountId={this.accountId}
+                            query={`SELECT count(requestUri) FROM JavaScriptError WHERE appName = '${this.appName}' FACET requestUri SINCE ${durationInMinutes} MINUTES AGO`} />
+                    </GridItem>
+                    <GridItem columnStart={7} columnEnd={12}>
+                        <h4>Browsers</h4>
+                        <PieChart
+                            className="chart"
+                            style={{ height: `${chartHeight}px` }}
+                            accountId={this.accountId}
+                            query={`SELECT count(userAgentName) FROM JavaScriptError WHERE appName = '${this.appName}' FACET userAgentName SINCE ${durationInMinutes} MINUTES AGO`} />
+                    </GridItem>
+                    <GridItem columnStart={1} columnEnd={12}>
+                        <h4>Error Messages</h4>
+                        <BarChart
+                            className="chart"
+                            style={{ height: `${height - 200}px` }}
+                            accountId={this.accountId}
+                            query={`SELECT count(errorMessage) FROM JavaScriptError WHERE appName = '${this.appName}' FACET errorMessage SINCE ${durationInMinutes} MINUTES AGO`} />
+                    </GridItem>                    
+                    <GridItem columnStart={1} columnEnd={12} style={{ marginTop: '20px' }}>
+                        <TableChart
+                            className="chart"
+                            style={{ height: height - chartHeight - 50, width: '100%' }}
+                            accountId={this.accountId}
+                            query={`SELECT * from JavaScriptError WHERE appName = '${this.appName}' SINCE ${durationInMinutes} MINUTES AGO LIMIT 2000 `}
+                        />
+                    </GridItem>
+                </Grid>
+            )}</AutoSizer>
         </React.Fragment >
     }
 }
