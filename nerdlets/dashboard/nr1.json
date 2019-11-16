@@ -1,8 +1,8 @@
 {
     "schemaType": "NERDLET",
     "id": "dashboard",
-    "description": "Description",
-    "displayName": "Dashboard",   
+    "description": "C-Suite Dashboard",
+    "displayName": "Management Dashboard",   
     "entities": [{"domain": "BROWSER", "type": "APPLICATION"}],
     "actionCategory": "monitor"
 }

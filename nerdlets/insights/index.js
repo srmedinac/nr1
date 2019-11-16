@@ -7,7 +7,7 @@ export default class Insights extends React.Component {
 
     constructor(props) {
         super(props);
-        this.accountId = 641239;
+        this.accountId = 1966971;
         this.state = {
             value: "SELECT count(*) as 'throughput' FROM Transaction TIMESERIES SINCE last week",
             

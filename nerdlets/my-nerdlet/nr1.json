@@ -1,8 +1,8 @@
 {
     "schemaType": "NERDLET",
     "id": "my-nerdlet",
-    "description": "Hackathon RMP APP",
-    "displayName": "Hackathon",
+    "description": "Geographic information",
+    "displayName": "Geographic Info",
     "entities": [{"domain": "BROWSER", "type": "APPLICATION"}],
     "actionCategory": "monitor"
 }
